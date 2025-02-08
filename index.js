@@ -1,32 +1,32 @@
 //cohort
 const COHORT = "2411-FSA-ET-WEB-PT";
 // API URL
-const API_URL = `https://fsa-crud-2aa9294fe819.herokuapp.com/api/${COHORT}/recipes`;
+const API_URL = `https://fsa-crud-2aa9294fe819.herokuapp.com/api/${COHORT}dm/events`;
 
 /**
- * 👉 STEP 1: Create an object called state that holds an array for recipe objects
+ * 👉 STEP 1: Create an object called state that holds an array for events objects
  */
 const state = {
-  recipes: [],
+  events: [],
 };
 
 /**
  * 👉 STEP 2: Complete the function so that it:
  *    - uses `fetch` to make a GET request to the API
  *    - turns the response into json
- *    - stores the json of recipes into state
- *    - calls `renderAllRecipes`
+ *    - stores the json of events into state
+ *    - calls `renderAllEvents`
  */
-const fetchAllRecipes = async () => {
+const fetchAllevents = async () => {
   try {
     const response = await fetch(API_URL);
     const json = await response.json();
 
-    state.recipes = json.data;
+    state.events = json.data;
 
-    renderAllRecipes();
+    renderAllEvents();
   } catch (error) {
-    console.log("ERROR in fetchAllRecipes", error);
+    console.log("ERROR in fetchAllEvents", error);
   }
 };
 
@@ -34,11 +34,11 @@ const fetchAllRecipes = async () => {
  * 👉 STEP 3: Complete the function so that it:
  *    - uses `fetch` to make a POST request to the API sending the data passed in the body of the request
  *    - turns the response into json
- *    - calls `fetchAllRecipes`
+ *    - calls `fetchAllevents`
  *
  * Note: date isn't used in this API but you will need to know how to work with it in the workshop
  */
-const createNewRecipe = async (name, imageUrl, description, date) => {
+const createNewEvent = async (name, description, date, location) => {
   try {
     // console.log("date", date);
     // console.log("typeof date", typeof date);
@@ -48,68 +48,69 @@ const createNewRecipe = async (name, imageUrl, description, date) => {
       method: "POST",
       body: JSON.stringify({
         name,
-        imageUrl,
         description,
+        date,
         // date: new Date(date).toISOString(),
+        location,
       }),
       headers: {
         "Content-Type": "application/json",
       },
     });
 
-    fetchAllRecipes();
+    fetchAllEvents();
   } catch (error) {
-    console.log("ERROR in createNewRecipe", error);
+    console.log("ERROR in createNewevent", error);
   }
 };
 
 /**
  * 👉 STEP 4: Complete the function so that it:
- *    - uses `fetch` to make a DELETE request to the API to delete a recipe with the id passed to the function
- *    - calls `fetchAllRecipes`
+ *    - uses `fetch` to make a DELETE request to the API to delete a event with the id passed to the function
+ *    - calls `fetchAllevents`
  */
-const removeRecipe = async (id) => {
+const removeEvent = async (id) => {
   try {
     await fetch(`${API_URL}/${id}`, {
       method: "DELETE",
     });
-    fetchAllRecipes();
+    fetchAllEvents();
   } catch (error) {
-    console.log("ERROR in removeRecipe", error);
+    console.log("ERROR in removeevent", error);
   }
 };
 
-// render all recipes on the page
-const renderAllRecipes = () => {
-  const recipesContainer = document.getElementById("recipes-container");
-  const recipeList = state.recipes;
+// render all events on the page
+const renderAllEvents = () => {
+  const eventsContainer = document.getElementById("events-container");
+  const eventList = state.events;
 
-  if (!recipeList || recipeList.length === 0) {
-    recipesContainer.innerHTML = "<h3>No recipes found</h3>";
+  if (!eventsList || eventsList.length === 0) {
+    eventsContainer.innerHTML = "<h3>No events found</h3>";
     return;
   }
 
-  //resets html of all recipes
-  recipesContainer.innerHTML = "";
+  //resets html of all events
+  eventsContainer.innerHTML = "";
 
-  //creates a card for each recipe
-  recipeList.forEach((recipe) => {
-    const recipeElement = document.createElement("div");
-    recipeElement.classList.add("recipe-card");
-    recipeElement.innerHTML = `
-            <h4>${recipe.name}</h4>
-            <img src="${recipe.imageUrl}" alt="${recipe.name}">
-            <p>${recipe.description}</p>
-            <button class="delete-button" data-id="${recipe.id}">Remove</button>
+  //creates a card for each event
+  eventsList.forEach((event) => {
+    const eventElement = document.createElement("div");
+    eventElement.classList.add("event-card");
+    eventElement.innerHTML = `
+            <h4>${event.name}</h4>
+            <img src="${event.descriptionl}" alt="${event.name}">
+            <p>${event.description}</p>
+            <button class="delete-button" data-id="${event.id}">Remove</button>
         `;
-    recipesContainer.appendChild(recipeElement);
+    eventsContainer.appendChild(eventElement);
 
-    const deleteButton = recipeElement.querySelector(".delete-button");
-    //add event listener to the delete button so we can delete a recipe
+    const deleteButton = eventElement.querySelector(".delete-button");
+    //add event listener to the delete button so we can delete a event
     deleteButton.addEventListener("click", (event) => {
       try {
         event.preventDefault();
-        removeRecipe(recipe.id);
+        removeEvent(event.id);
       } catch (error) {
         console.log(error);
       }
@@ -117,33 +118,33 @@ const renderAllRecipes = () => {
   });
 };
 
-//  adds a listener to our form so when we submit the form we create a new recipe
+//  adds a listener to our form so when we submit the form we create a new event
 const addListenerToForm = () => {
-  const form = document.querySelector("#new-recipe-form");
+  const form = document.querySelector("#new-event-form");
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    await createNewRecipe(
+    await createNewEvent(
       form.name.value,
-      form.imageUrl.value,
       form.description.value,
-      form.date.value
+      form.date.value,
+      form.location.value
     );
 
-    //clears the form after we create the new recipe
+    //clears the form after we create the new event
     form.name.value = "";
-    form.imageUrl.value = "";
     form.description.value = "";
     form.date.value = "";
+    form.location.value = "";
   });
 };
 
 //initial function when the page loads
 const init = async () => {
-  //gets all the recipes from the API
-  await fetchAllRecipes();
-  //adds a listener to the form so we can add a recipe when the user submits the form
+  //gets all the events from the API
+  await fetchAllevents();
+  //adds a listener to the form so we can add a event when the user submits the form
   addListenerToForm();
 };
 

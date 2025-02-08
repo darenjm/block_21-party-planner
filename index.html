@@ -1,42 +1,44 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width" />
+    <title>Block 21: Async / Await</title>
+    <script src="./index.js" defer></script>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
 
-  <title>Block 21: Async / Await</title>
-  <script src="./index.js" defer></script>
-  <link rel="stylesheet" href="./index.css" />
-</head>
+  <body>
+    <header>
+      <h1>Recipe Guide</h1>
+    </header>
 
-<body>
-  <header>
-    <h1>Recipe Guide</h1>
-  </header>
-
-  <div id="new-recipe-form-container">
-    <form id="new-recipe-form">
-      <label for="name">
-        Name
-        <input type="text" id="name" name="name" placeholder="Name">
-      </label>
-      <label for="imageUrl">
-        Image URL
-        <input type="text" id="imageUrl" name="imageUrl" placeholder="Image URL">
-      </label>
-      <label for="description">
-        Description
-        <textarea id="description" name="description" placeholder="Description"></textarea>
-      </label>
-      <label>
-        Date
-        <input type="date" name="date" />
-      </label>
-      <button type="submit">Create</button>
-    </form>
-  </div>
-  <div id="recipes-container"></div>
-</body>
-
+    <div id="new-recipe-form-container">
+      <form id="new-recipe-form">
+        <label for="name">
+          Name
+          <input type="text" id="name" name="name" placeholder="Name" />
+        </label>
+        <label for="description">
+          Description
+          <textarea
+            id="description"
+            name="description"
+            placeholder="Description"
+          ></textarea>
+        </label>
+        <label>
+          Date
+          <input type="date" name="date" />
+        </label>
+        <label for="name">
+          Location
+          <input type="text" id="name" name="name" placeholder="Location" />
+        </label>
+        <button type="submit">Create</button>
+      </form>
+    </div>
+    <div id="events-container"></div>
+  </body>
 </html>
