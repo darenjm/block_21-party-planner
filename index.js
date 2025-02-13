@@ -22,9 +22,9 @@ const fetchAllevents = async () => {
     const response = await fetch(API_URL);
     const json = await response.json();
 
-    state.events = json.data;
-
-    renderAllEvents();
+    // state.events = json.data;
+    console.log(json);
+    // renderAllEvents();
   } catch (error) {
     console.log("ERROR in fetchAllEvents", error);
   }
