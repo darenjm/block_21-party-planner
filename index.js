@@ -37,12 +37,11 @@ const fetchAllEvents = async () => {
  *
  * Note: date isn't used in this API but you will need to know how to work with it in the workshop
  */
-const createNewEvent = async (name, imageUrl, description, date, location) => {
+const createNewEvent = async (name, description, date, location) => {
   try {
     console.log(
       JSON.stringify({
         name,
-        imageUrl,
         description,
         date,
         location,
