@@ -1,7 +1,7 @@
 //cohort
 const COHORT = "2411-FSA-ET-WEB-PT";
 // API URL
-const API_URL = `https://fsa-crud-2aa9294fe819.herokuapp.com/api/${COHORT}dm/events`;
+const API_URL = `https://fsa-crud-2aa9294fe819.herokuapp.com/api/${COHORT}-djm/events`;
 
 /**
  * 👉 STEP 1: Create an object called state that holds an array for events objects
