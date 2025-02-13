@@ -37,22 +37,23 @@ const fetchAllEvents = async () => {
  *
  * Note: date isn't used in this API but you will need to know how to work with it in the workshop
  */
-const createNewEvent = async (name, description, date, location) => {
+const createNewEvent = async (name, imageUrl, description, date, location) => {
   try {
-    console.log(
-      JSON.stringify({
+    await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
         name,
+        imageUrl,
         description,
         date,
         location,
-      })
-    );
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    // const response = await fetch(API_URL, {
-    //   method: 'POST',
-    //   body: JSON.stringify({ name, description, date, location }),
-    // });
-    // const json = await response.json();
+    fetchAllEvents();
   } catch (error) {
     console.log("ERROR in createNewevent", error);
   }
@@ -93,7 +94,7 @@ const renderAllEvents = () => {
     eventElement.classList.add("event-card");
     eventElement.innerHTML = `
             <h4>${event.name}</h4>
-            <img src="${event.descriptionl}" alt="${event.name}">
+            <img src="${event.imageUrl}" alt="${event.name}">
             <p>${event.description}</p>
             <button class="delete-button" data-id="${event.id}">Remove</button>
         `;
@@ -121,6 +122,7 @@ const addListenerToForm = () => {
 
     await createNewEvent(
       form.name.value,
+      form.imageUrl.value,
       form.description.value,
       form.date.value,
       form.location.value
@@ -131,6 +133,7 @@ const addListenerToForm = () => {
     form.description.value = "";
     form.date.value = "";
     form.location.value = "";
+    form.imageUrl.value = "";
   });
 };
 
