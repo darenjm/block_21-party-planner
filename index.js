@@ -17,14 +17,13 @@ const state = {
  *    - stores the json of events into state
  *    - calls `renderAllEvents`
  */
-const fetchAllevents = async () => {
+const fetchAllEvents = async () => {
   try {
     const response = await fetch(API_URL);
     const json = await response.json();
 
-    // state.events = json.data;
-    console.log(json);
-    // renderAllEvents();
+    state.events = json.data;
+    renderAllEvents();
   } catch (error) {
     console.log("ERROR in fetchAllEvents", error);
   }
@@ -40,25 +39,21 @@ const fetchAllevents = async () => {
  */
 const createNewEvent = async (name, description, date, location) => {
   try {
-    // console.log("date", date);
-    // console.log("typeof date", typeof date);
-    // console.log("ISO date", new Date(date).toISOString());
-
-    await fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify({
+    console.log(
+      JSON.stringify({
         name,
+        imageUrl,
         description,
         date,
-        // date: new Date(date).toISOString(),
         location,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+      })
+    );
 
-    fetchAllEvents();
+    // const response = await fetch(API_URL, {
+    //   method: 'POST',
+    //   body: JSON.stringify({ name, description, date, location }),
+    // });
+    // const json = await response.json();
   } catch (error) {
     console.log("ERROR in createNewevent", error);
   }
@@ -85,7 +80,7 @@ const renderAllEvents = () => {
   const eventsContainer = document.getElementById("events-container");
   const eventList = state.events;
 
-  if (!eventsList || eventsList.length === 0) {
+  if (!eventList || eventList.length === 0) {
     eventsContainer.innerHTML = "<h3>No events found</h3>";
     return;
   }
@@ -94,7 +89,7 @@ const renderAllEvents = () => {
   eventsContainer.innerHTML = "";
 
   //creates a card for each event
-  eventsList.forEach((event) => {
+  eventList.forEach((event) => {
     const eventElement = document.createElement("div");
     eventElement.classList.add("event-card");
     eventElement.innerHTML = `
@@ -143,7 +138,7 @@ const addListenerToForm = () => {
 //initial function when the page loads
 const init = async () => {
   //gets all the events from the API
-  await fetchAllevents();
+  await fetchAllEvents();
   //adds a listener to the form so we can add a event when the user submits the form
   addListenerToForm();
 };
