@@ -24,6 +24,7 @@ const fetchAllEvents = async () => {
 
     state.events = json.data;
     renderAllEvents();
+    console.log(state.events)
   } catch (error) {
     console.log("ERROR in fetchAllEvents", error);
   }
@@ -94,8 +95,9 @@ const renderAllEvents = () => {
     eventElement.classList.add("event-card");
     eventElement.innerHTML = `
             <h4>${event.name}</h4>
-            <img src="${event.imageUrl}" alt="${event.name}">
             <p>${event.description}</p>
+            <p>${new Date(event.date).toLocaleString()}</p>
+            <p>${event.location}</p>
             <button class="delete-button" data-id="${event.id}">Remove</button>
         `;
     eventsContainer.appendChild(eventElement);
