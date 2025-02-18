@@ -19,7 +19,7 @@ const state = {
  */
 const fetchAllEvents = async () => {
   try {
-    const response = await fetch(API_URL);
+    const response = await fetch(`${API_URL}`);
     const json = await response.json();
 
     state.events = json.data;
@@ -124,7 +124,6 @@ const addListenerToForm = () => {
 
     await createNewEvent(
       form.name.value,
-      form.imageUrl.value,
       form.description.value,
       form.date.value,
       form.location.value
