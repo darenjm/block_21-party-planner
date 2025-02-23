@@ -24,7 +24,7 @@ const fetchAllEvents = async () => {
 
     state.events = json.data;
     renderAllEvents();
-    console.log(state.events)
+    console.log(state.events);
   } catch (error) {
     console.log("ERROR in fetchAllEvents", error);
   }
@@ -38,15 +38,14 @@ const fetchAllEvents = async () => {
  *
  * Note: date isn't used in this API but you will need to know how to work with it in the workshop
  */
-const createNewEvent = async (name, imageUrl, description, date, location) => {
+const createNewEvent = async (name, description, date, location) => {
   try {
     await fetch(API_URL, {
       method: "POST",
       body: JSON.stringify({
         name,
-        imageUrl,
         description,
-        date,
+        date: new Date(date).toISOString(),
         location,
       }),
       headers: {
@@ -66,6 +65,7 @@ const createNewEvent = async (name, imageUrl, description, date, location) => {
  *    - calls `fetchAllevents`
  */
 const removeEvent = async (id) => {
+  console.log("id", id);
   try {
     await fetch(`${API_URL}/${id}`, {
       method: "DELETE",
@@ -75,6 +75,8 @@ const removeEvent = async (id) => {
     console.log("ERROR in removeevent", error);
   }
 };
+
+
 
 // render all events on the page
 const renderAllEvents = () => {
@@ -104,9 +106,10 @@ const renderAllEvents = () => {
 
     const deleteButton = eventElement.querySelector(".delete-button");
     //add event listener to the delete button so we can delete a event
-    deleteButton.addEventListener("click", (event) => {
+    deleteButton.addEventListener("click", (evt) => {
       try {
-        event.preventDefault();
+        evt.preventDefault();
+        console.log("delte event", event)
         removeEvent(event.id);
       } catch (error) {
         console.log(error);
@@ -134,7 +137,6 @@ const addListenerToForm = () => {
     form.description.value = "";
     form.date.value = "";
     form.location.value = "";
-    form.imageUrl.value = "";
   });
 };
 
